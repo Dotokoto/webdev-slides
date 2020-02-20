@@ -16,7 +16,7 @@
                 <section class="center">
                     <h1 style="font-size: 200px; display: flex; align-items: center; justify-content: center;"><img
                             src="./images/react-logo.svg" width="300">React</h1>
-                    <h2 class="grey" style="font-size: 30px; font-weight: bold;">Максим Воронцов</h2>
+                    <h2 class="grey" style="font-size: 30px; font-weight: bold;">Наталья Дружинина</h2>
                 </section>
 
                 <section class="center">
@@ -782,6 +782,58 @@
                 </section>
 
                 <section class="center">
+                    <h2 style="font-weight: bold;">
+                        А как в функциональных компонентах?
+                    </h2>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Хуки</h2>
+                    <p style="font-size: 40px">
+                        Позволяют использовать состояние и другие возможности React без написания классов
+                    </p>
+                    <p style="font-size: 40px">
+                        Появились в версии 16.8.0
+                    </p>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Хук состояния</h2>
+                    <pre><code data-trim data-noescape class="javascript" style="font-size: 24px;">
+                        import React, { useState } from 'react';
+
+                        function Example() {
+                            // Объявление переменной состояния, которую мы назовём "count"
+                            const [count, setCount] = useState(0);
+
+                            return (
+                                &lt;<span class="hljs-name">div</span>>
+                                    &lt;<span class="hljs-name">p</span>>Вы нажали {count} раз&lt;/<span class="hljs-name">p</span>>
+                                    &lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{() => setCount(count + 1)}</span>>
+                                        Нажми на меня
+                                    &lt;/<span class="hljs-name">button</span>>
+                                &lt;/<span class="hljs-name">div</span>>
+                            );
+                        }
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Хук состояния</h2>
+                    <pre><code data-trim data-noescape class="javascript" style="font-size: 24px;">
+                        import React, { useState } from 'react';
+
+                        function ExampleWithManyStates() {
+                            // Объявляем несколько переменных состояния
+                            const [age, setAge] = useState(42);
+                            const [fruit, setFruit] = useState('банан');
+                            const [todos, setTodos] = useState([{ text: 'Изучить хуки' }]);
+                            // ...
+                        }
+                    </code></pre>
+                </section>
+
+                <section class="center">
                     <h2 style="font-weight: bold;">Жизненный цикл компонента</h2>
                     <h2 class="grey" style="font-size: 35px; font-weight: bold;">Component life-cycle</h2>
                 </section>
@@ -845,6 +897,73 @@
                     <pre><code class="bash" data-trim style="text-align: center;">
                         componentWillUnmount
                     </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">А на хуках?</h2>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Хук эффекта</h2>
+                    <pre><code data-trim data-noescape class="javascript" style="font-size: 24px;">
+                        import React, { useEffect, useState } from 'react';
+
+                        function Example() {
+                            const [count, setCount] = useState(0);
+                            
+                            // Аналогично componentDidMount и componentDidUpdate:
+                            useEffect(() => { document.title = `Вы нажали ${count} раз`; });
+
+                            return (
+                                &lt;<span class="hljs-name">div</span>>
+                                    &lt;<span class="hljs-name">p</span>>Вы нажали {count} раз&lt;/<span class="hljs-name">p</span>>
+                                    &lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{() => setCount(count + 1)}</span>>
+                                        Нажми на меня
+                                    &lt;/<span class="hljs-name">button</span>>
+                                &lt;/<span class="hljs-name">div</span>>
+                            );
+                        }
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Какие ещё есть хуки?</h2>
+                    <pre><code data-trim data-noescape class="javascript" style="font-size: 24px;">
+                        function Example() {
+                            const locale = useContext(LocaleContext);
+                            const [todos, dispatch] = useReducer(todosReducer);
+                            const refContainer = useRef(initialValue);
+                            const memoizedValue = useMemo(
+                                () => computeExpensiveValue(a, b),
+                                [a, b]);
+                            const memoizedCallback = useCallback(
+                                () => { doSomething(a, b); },
+                                [a, b],
+                            );
+                            // ...
+                        }
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Зачем вообще использовать хуки?</h2>
+                    <div style="display: flex; justify-content: center; font-size: 40px">
+                        <ol>
+                            <li class="fragment">Повторное использование логики состояния компонента</li>
+                            <li class="fragment">Разделение компонента на функции по их назначению (а не на основе lifecycle)</li>
+                            <li class="fragment">Более оптимизируемый код</li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Правила использования хуков</h2>
+                    <div style="display: flex; justify-content: center; font-size: 40px">
+                        <ol>
+                            <li class="fragment">Только на верхнем уровне</li>
+                            <li class="fragment">Только в функциональных компонентах</li>
+                        </ol>
+                    </div>
                 </section>
 
                 <section class="center">
@@ -1118,186 +1237,6 @@
                             <li class="red">Более сложное взаимодействие</li>
                         </ul>
                     </div>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Сборка</h2>
-                </section>
-
-                <section data-background-video="./images/webpack.mp4" data-background-video-loop="true"></section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">webpack</h2>
-                    <pre><code class="bash" data-noescape data-trim>
-                        <span class="red">$</span> npm i webpack webpack-cli babel-loader babel-preset-react
-                    </code></pre>
-                    <pre class="fragment"><code class="javascript" data-trim style="font-size: 15px">
-                        // webpack.config.js
-
-                        const path = require('path');
-
-                        module.exports = {
-                            entry: './index.js',
-                            output: {
-                                path: path.join(__dirname, './build')
-                            },
-                            module: {
-                                rules: [{
-                                    test: /\.js$/,
-                                    loader: 'babel-loader',
-                                    options: {
-                                        presets: ['react']
-                                    }
-                                }]
-                            }
-                        };
-                    </code></pre>
-                    <pre class="fragment"><code class="bash" data-trim data-noescape>
-                        <span class="red">$</span> webpack --config webpack.config.js
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">create-react-app</h2>
-                    <pre><code class="bash" data-trim data-noescape>
-                        <span class="red">$</span> npm install -g create-react-app
-                        <span class="fragment"><span class="red">$</span> create-react-app notes-app</span>
-                        <span class="fragment"><span class="red">$</span> cd notes-app</span>
-                        <span class="fragment"><span class="red">$</span> npm run start
-                        <span class="grey" style="font-size: 18px;">
-                        Compiled successfully!
-
-                        You can now view <span style="font-weight: bold;">notes-app</span> in the browser.
-                            <span style="font-weight: bold;">Local</span>:            http://localhost:<span
-                                style="font-weight: bold;">3000</span>/
-
-                        Note that the development build is not optimized.
-                        To create a production build, use <span class="green">npm run build.</span></span></span>
-                    </code></pre>
-                </section>
-
-                <section>
-                    <h2 style="font-weight: bold;">create-react-app</h2>
-                    <pre><code class="bash" style="font-size: 20px;" data-trim>
-                        notes-app
-                        ├── README.md
-                        ├── node_modules
-                        ├── package.json
-                        ├── .gitignore
-                        ├── public
-                        │   ├── favicon.ico
-                        │   ├── index.html
-                        │   └── manifest.json
-                        └── src
-                            ├── App.css
-                            ├── App.js
-                            ├── App.test.js
-                            ├── index.css
-                            ├── index.js
-                            ├── logo.svg
-                            └── registerServiceWorker.js
-                    </code></pre>
-                </section>
-
-                <section>
-                    <h2 style="font-weight: bold;">create-react-app</h2>
-                    <pre><code class="bash" style="font-size: 20px;" data-trim data-noescape>
-                        notes-app
-                        <span style="opacity: .2">├── README.md</span>
-                        <span style="opacity: .2">├── node_modules</span>
-                        <span style="opacity: .2">├── package.json</span>
-                        <span style="opacity: .2">├── .gitignore</span>
-                        ├── public
-                        │   <span style="opacity: .2">├── favicon.ico</span>
-                        │   ├── index.html
-                        │   <span style="opacity: .2">└── manifest.json</span>
-                        └── src
-                            <span style="opacity: .2">├── App.css</span>
-                            <span style="opacity: .2">├── App.js</span>
-                            <span style="opacity: .2">├── App.test.js</span>
-                            <span style="opacity: .2">├── index.css</span>
-                            ├── index.js
-                            <span style="opacity: .2">├── logo.svg</span>
-                            <span style="opacity: .2">└── registerServiceWorker.js</span>
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">create-react-app</h2>
-                    <div style="display: flex; align-items: center; justify-content: center; font-size: 35px;">
-                        <ul style="list-style: none">
-                            <li class="green">Очень быстрый старт</li>
-                            <li class="green">Активное развитие и поддержка от разработчиков React</li>
-                            <li class="red">Сложности при интеграции со своим сервером</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <section data-background-image="./images/nextjs.png" data-background-size="800px">
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">next.js</h2>
-                    <pre style="margin: 0;"><code class="bash" data-trim data-noescape style="font-size: 20px;">
-                        <span class="red">$</span> mkdir notes-app && cd notes-app
-                        <span class="fragment"><span class="red">$</span> npm install --save next react react-dom</span>
-                    </code></pre>
-                    <pre class="fragment" style="margin: 0;"><code data-trim data-noescape style="font-size: 18px;">
-                        <span class="grey">package.json</span>
-                        {
-                          "scripts": {
-                            "dev": "next",
-                            "build": "next build",
-                            "start": "next start"
-                          }
-                        }
-                    </code></pre>
-                    <pre class="fragment" style="margin: 0;"><code data-trim data-noescape style="font-size: 18px;">
-                        <span class="grey">./pages/index.js</span>
-                        export default () => &lt;div>Welcome to next.js!&lt;/div>
-                    </code></pre>
-                    <pre class="fragment" style="margin: 0;"><code class="bash" data-trim data-noescape
-                                                                   style="font-size: 20px;">
-                        <span class="red">$</span> npm run dev
-                        <span style="opacity: .5; font-size: 15px;"><span style="background-color: #63a35c;">DONE</span>  <span
-                                style="color: #63a35c;">Compiled successfully span 1773ms</span>
-                         > Ready on http://localhost:3000</span>
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">next.js</h2>
-                    <div style="display: flex; align-items: center; justify-content: center; font-size: 35px;">
-                        <ul style="list-style: none">
-                            <li class="green">Очень быстрый старт</li>
-                            <li class="green">Активное развитие и поддержка</li>
-                            <li class="green">Множество точек для расширения и кастомизации</li>
-                        </ul>
-                    </div>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">next.js&nbsp;<span class="grey">Свой сервер</span></h2>
-                    <pre><code class="javascript" data-trim data-noescape style="font-size: 18px;">
-                        const { parse } = require('url');
-
-                        const next = require('next');
-                        const server = require('express')();
-
-                        <span class="fragment" data-fragment-index="1">const app = next({ dev: process.env.NODE_ENV !== 'production' });</span>
-
-                        <span class="fragment" data-fragment-index="3">const render = pageName => (req, res) => app.render(req, res, `/${pageName}`);
-                        const handleRequest = (req, res) =>
-                            app.getRequestHandler()(req, res, parse(req.url, true));</span>
-
-                        <span class="fragment" data-fragment-index="2">app.prepare().then(() => {
-                            <span class="fragment" data-fragment-index="3">server
-                                .get('/notes', render('index'))
-                                .get('/notes/:note', render('note'))
-                                .get('*', handleRequest)
-                                .listen(3000, () => console.log('Listening on http://localhost:3000'));</span>
-                        });</span>
-                    </code></pre>
                 </section>
 
                 <section class="center">
