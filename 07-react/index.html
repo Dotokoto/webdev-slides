@@ -123,10 +123,12 @@
                     <h2 style="font-weight: bold;">Концепции React</h2>
                     <div style="display: flex; justify-content: center; font-size: 40px">
                         <ol>
+                            <li class="fragment">Декларативность</li>
                             <li class="fragment">Компонентный подход</li>
                             <li class="fragment">Эффективная абстракция над DOM</li>
                             <li class="fragment">Изоморфный код</li>
                             <li class="fragment">Реактивный рендеринг</li>
+                            <li class="fragment">Нисходящий поток данных</li>
                         </ol>
                     </div>
                 </section>
@@ -150,6 +152,13 @@
 
                 <section class="center">
                     <h2 style="font-weight: bold;">Первый компонент</h2>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Первый компонент</h2>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <img src="./images/composite-components.png" width="500">
+                    </div>
                 </section>
 
                 <section class="center">
@@ -355,10 +364,24 @@
                 </section>
 
                 <section class="center">
+                    <h2 style="font-weight: bold;">Может быть только <strong>один</strong> корневой элемент</h2>
+                    <pre><code class="javascript" data-trim>
+                        function MyComponent() {
+                            return (
+                                &lt;>
+                                    &lt;p>Первый абзац&lt;/p>
+                                    &lt;p>Второй абзац&lt;/p>
+                                &lt;/>
+                            );
+                        }
+                    </code></pre>
+                </section>
+
+                <section class="center">
                     <h2 style="font-weight: bold;"><strong>Javascript</strong> выражения должны быть заключены в
                         <strong>{ }</strong></h2>
                     <pre><code class="javascript" data-trim>
-                        const user = { name: 'Максим' };
+                        const user = { name: 'Наташа' };
 
                         function Greeting() {
                             return &lt;div>Привет, {user.name}&lt;/div>;
@@ -369,7 +392,7 @@
                 <section class="center">
                     <h2 style="font-weight: bold;">Всё содержимое экранируется</h2>
                     <pre><code class="javascript" data-trim>
-                        const someHtml = '&lt;strong>Максим&lt;/strong>';
+                        const someHtml = '&lt;strong>Наташа&lt;/strong>';
 
                         function Greeting() {
                             return &lt;div>Привет, {someHtml}&lt;/div>;
@@ -380,7 +403,7 @@
                 <section class="center">
                     <h2 style="font-weight: bold;">Всё содержимое экранируется</h2>
                     <pre><code class="javascript" data-trim>
-                        const someHtml = '&lt;strong>Максим&lt;/strong>';
+                        const someHtml = '&lt;strong>Наташа&lt;/strong>';
 
                         function Greeting() {
                             return (
@@ -445,6 +468,24 @@
                     <div style="display: flex; align-items: center; justify-content: center;">
                         <img src="images/props-flow-3.svg" width="900">
                     </div>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold; display: flex; align-items: center; justify-content: center;">Атрибуты&nbsp;<span
+                            class="grey" style="font-size: 40px;">(Props)</span></h2>
+                    <pre><code class="language-javascript" data-trim data-noescape>
+                        function SomeComponent() {
+                            return (
+                                &lt;<span class="hljs-name">OtherComponent</span>
+                                    <span class="hljs-attr">text</span>=<span
+                                    class="hljs-string">"Text"</span>
+                                    <span
+                                    class="hljs-attr">id</span>=<span class="hljs-attr">{2}</span>
+                                    <span>data</span>=<span class="hljs-string">{[1, 3, 4]}</span>
+                                />
+                            );
+                        }
+                    </code></pre>
                 </section>
 
                 <section class="center">
@@ -531,7 +572,7 @@
 
                         export default class Note extends React.Component {
                             static propTypes = {
-                                name: PropTypes.string.isRequired,
+                                name: <PropTypes class="string"></PropTypes>,
                                 text: PropTypes.string.isRequired
                             }
 
@@ -575,13 +616,11 @@
                     <pre><code class="javascript" data-trim data-noescape>
                         import ThemeContext from './ThemeContext.js';
 
-                        function Note() {
+                        function NotesApp() {
                             return (
-                                &lt;ThemeContext.Consumer>
-                                    {theme => {
-                                        return &lt;div>...&lt;/div>;
-                                    }}
-                                &lt;/ThemeContext.Consumer>
+                                &lt;ThemeContext.Provider value="dark">
+                                    ...
+                                &lt;/ThemeContext.Provider>
                             );
                         }
                     </code></pre>
@@ -593,11 +632,13 @@
                     <pre><code class="javascript" data-trim data-noescape>
                         import ThemeContext from './ThemeContext.js';
 
-                        function NotesApp() {
+                        function Note() {
                             return (
-                                &lt;ThemeContext.Provider value="dark">
-                                    ...
-                                &lt;/ThemeContext.Provider>
+                                &lt;ThemeContext.Consumer>
+                                    {theme => {
+                                        return &lt;div className={theme}>...&lt;/div>;
+                                    }}
+                                &lt;/ThemeContext.Consumer>
                             );
                         }
                     </code></pre>
@@ -655,10 +696,29 @@
                         <ol>
                             <li class="red">Может быть только у классов</li>
                             <li class="fragment">Компонент реагирует на изменения состояния</li>
-                            <li class="fragment">Инициализация происходит в одном месте</li>
+                            <li class="fragment">Инициализация происходит в конструкторе</li>
                             <li class="fragment">Изменять состояние напрямую нельзя</li>
                         </ol>
                     </div>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold; display: flex; align-items: center; justify-content: center;">
+                        Состояние компонента&nbsp;<span class="grey" style="font-size: 40px;">(State)</span></h2>
+                    <pre><code class="javascript" data-trim data-noescape style="font-size: 20px">
+                        export default class Note extends React.Component {
+                            constructor(props) {
+                                super(props);
+
+                                this.state = { viewType: 'short' };
+                                this.viewFull = () => this.setState({ viewType: 'full' })
+                            }
+
+                            render() {
+                                ...
+                            }
+                        }
+                    </code></pre>
                 </section>
 
                 <section class="center">
@@ -782,6 +842,27 @@
                 </section>
 
                 <section class="center">
+                    <h2 style="font-weight: bold;">Жизненный цикл компонента</h2>
+                    <h2 class="grey" style="font-size: 35px; font-weight: bold;">Component life-cycle</h2>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">Этапы жизненного цикла</h2>
+                    <div style="display: flex; justify-content: center; font-size: 40px">
+                        <ol>
+                            <li>Монтирование компонента <span style="font-size: 40px;" class="grey">(Mounting)</span>
+                            </li>
+                            <li>Изменение атрибутов или состояния <span style="font-size: 40px;"
+                                                                        class="grey">(Updating)</span></li>
+                            <li>Удаление компонента <span style="font-size: 40px;" class="grey">(Unmounting)</span></li>
+                        </ol>
+                    </div>
+                </section>
+
+                <section data-background-image="./images/lifecycle-simple.png" data-background-size="1200px"></section>
+                <section data-background-image="./images/lifecycle-full.png" data-background-size="1200px"></section>
+
+                <section class="center">
                     <h2 style="font-weight: bold;">
                         А как в функциональных компонентах?
                     </h2>
@@ -790,10 +871,7 @@
                 <section class="center">
                     <h2 style="font-weight: bold;">Хуки</h2>
                     <p style="font-size: 40px">
-                        Позволяют использовать состояние и другие возможности React без написания классов
-                    </p>
-                    <p style="font-size: 40px">
-                        Появились в версии 16.8.0
+                        Хуки — это функции, с помощью которых вы можете «подцепиться» к состоянию и методам жизненного цикла React из функциональных компонентов.
                     </p>
                 </section>
 
@@ -834,73 +912,7 @@
                 </section>
 
                 <section class="center">
-                    <h2 style="font-weight: bold;">Жизненный цикл компонента</h2>
-                    <h2 class="grey" style="font-size: 35px; font-weight: bold;">Component life-cycle</h2>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Этапы жизненного цикла</h2>
-                    <div style="display: flex; justify-content: center; font-size: 40px">
-                        <ol>
-                            <li>Монтирование компонента <span style="font-size: 40px;" class="grey">(Mounting)</span>
-                            </li>
-                            <li>Изменение атрибутов или состояния <span style="font-size: 40px;"
-                                                                        class="grey">(Updating)</span></li>
-                            <li>Удаление компонента <span style="font-size: 40px;" class="grey">(Unmounting)</span></li>
-                        </ol>
-                    </div>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Монтирование <span class="grey"
-                                                                      style="font-size: 40px">(Mounting)</span></h2>
-                    <pre><code class="bash" data-trim data-noescape style="text-align: center;">
-                        constructor
-                        ↓
-                        <span style="position: absolute; transform: translateX(-100%)" class="grey">(static)</span> getDerivedStateFromProps
-                        ↓
-                        render
-                        ↓
-                        componentDidMount
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Изменение атрибутов <span class="grey" style="font-size: 40px">(Updating)</span>
-                    </h2>
-                    <pre><code class="bash" data-trim data-noescape style="text-align: center;">
-                        <span style="position: absolute; transform: translateX(-100%)" class="grey">(static)</span> getDerivedStateFromProps
-                        ↓
-                        shouldComponentUpdate
-                        ↓
-                        render
-                        ↓
-                        componentDidUpdate
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Изменение состояния <span class="grey" style="font-size: 40px">(Updating)</span>
-                    </h2>
-                    <pre><code class="bash" data-trim style="text-align: center;">
-                        shouldComponentUpdate
-                        ↓
-                        render
-                        ↓
-                        componentDidUpdate
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Удаление компонента&nbsp;<span class="grey" style="font-size: 40px">(Unmounting)</span>
-                    </h2>
-                    <pre><code class="bash" data-trim style="text-align: center;">
-                        componentWillUnmount
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">А на хуках?</h2>
+                    <h2 style="font-weight: bold;">Жизненный цикл на хуках</h2>
                 </section>
 
                 <section class="center">
@@ -910,7 +922,7 @@
 
                         function Example() {
                             const [count, setCount] = useState(0);
-                            
+
                             // Аналогично componentDidMount и componentDidUpdate:
                             useEffect(() => { document.title = `Вы нажали ${count} раз`; });
 
@@ -926,45 +938,6 @@
                     </code></pre>
                 </section>
 
-                <section class="center">
-                    <h2 style="font-weight: bold;">Какие ещё есть хуки?</h2>
-                    <pre><code data-trim data-noescape class="javascript" style="font-size: 24px;">
-                        function Example() {
-                            const locale = useContext(LocaleContext);
-                            const [todos, dispatch] = useReducer(todosReducer);
-                            const refContainer = useRef(initialValue);
-                            const memoizedValue = useMemo(
-                                () => computeExpensiveValue(a, b),
-                                [a, b]);
-                            const memoizedCallback = useCallback(
-                                () => { doSomething(a, b); },
-                                [a, b],
-                            );
-                            // ...
-                        }
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Зачем вообще использовать хуки?</h2>
-                    <div style="display: flex; justify-content: center; font-size: 40px">
-                        <ol>
-                            <li class="fragment">Повторное использование логики состояния компонента</li>
-                            <li class="fragment">Разделение компонента на функции по их назначению (а не на основе lifecycle)</li>
-                            <li class="fragment">Более оптимизируемый код</li>
-                        </ol>
-                    </div>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold;">Правила использования хуков</h2>
-                    <div style="display: flex; justify-content: center; font-size: 40px">
-                        <ol>
-                            <li class="fragment">Только на верхнем уровне</li>
-                            <li class="fragment">Только в функциональных компонентах</li>
-                        </ol>
-                    </div>
-                </section>
 
                 <section class="center">
                     <h2 style="font-weight: bold;">Работа со списками</h2>
@@ -1043,45 +1016,20 @@
                         на DOM элемент&nbsp;<span class="grey" style="font-size: 40px;">(Ref)</span></h2>
                     <pre><code class="javascript" data-trim style="font-size: 23px;" data-noescape>
                         class Form extends React.Component {
-                            inputRef = input => this.input = input
+                            inputRef = React.createRef();
 
-                            handleSubmit = () => this.makeSomeApiRequest(this.input.value)
+                            handleSubmit = () => this.makeSomeApiRequest(
+                                this.inputRef.current.value
+                            )
 
                             render() {
                                 return (
-                                    &lt;<span class="hljs-name">div</span>>
-                                        &lt;<span class="hljs-name">input</span> <span
-                            class="hljs-attr">ref</span>={<span class="hljs-keyword">this</span>.inputRef} />
-                                        &lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>={<span
+                                    &lt;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>={<span
                             class="hljs-keyword">this</span>.handleSubmit}>
-                                            Отправить
-                                        &lt;/<span class="hljs-name">button</span>>
-                                    &lt;/<span class="hljs-name">div</span>>
-                                );
-                            }
-                        }
-                    </code></pre>
-                </section>
-
-                <section class="center">
-                    <h2 style="font-weight: bold; display: flex; justify-content: center; align-items: center;">Ссылка
-                        на DOM элемент&nbsp;<span class="grey" style="font-size: 40px;">(Ref)</span></h2>
-                    <pre><code class="javascript" data-trim style="font-size: 23px;" data-noescape>
-                        class Form extends React.Component {
-                            inputRef = input => this.input = input
-
-                            <span style="opacity: .2;">handleSubmit = () => this.makeSomeApiRequest(this.input.value)</span>
-
-                            render() {
-                                return (
-                                    &lt;<span class="hljs-name">div</span>>
                                         &lt;<span class="hljs-name">input</span> <span
                             class="hljs-attr">ref</span>={<span class="hljs-keyword">this</span>.inputRef} />
-                                        <span style="opacity: .2;">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>={<span
-                                                class="hljs-keyword">this</span>.handleSubmit}>
-                                            Отправить
-                                        &lt;<span class="hljs-name">button</span>></span>
-                                    &lt;/<span class="hljs-name">div</span>>
+                                        &lt;<span class="hljs-name">button</span>>Отправить&lt;/<span class="hljs-name">button</span>>
+                                    &lt;/<span class="hljs-name">form</span>>
                                 );
                             }
                         }
@@ -1093,20 +1041,45 @@
                         на DOM элемент&nbsp;<span class="grey" style="font-size: 40px;">(Ref)</span></h2>
                     <pre><code class="javascript" data-trim style="font-size: 23px;" data-noescape>
                         class Form extends React.Component {
-                            <span style="opacity: .2;">inputRef = input => this.input = input</span>
+                            inputRef = React.createRef();
 
-                            handleSubmit = () => this.makeSomeApiRequest(this.input.value)
+                            <span style="opacity: .2;">handleSubmit = () => this.makeSomeApiRequest(
+                                this.inputRef.current.value
+                            )</span>
 
                             render() {
                                 return (
-                                    &lt;<span class="hljs-name">div</span>>
+                                    <span style="opacity: .2;">&lt;<span class="hljs-name">form</span> <span><span class="hljs-attr">onSubmit</span>={<span
+                            class="hljs-keyword">this</span>.handleSubmit}</span>></span>
+                                        &lt;<span class="hljs-name">input</span> <span
+                            class="hljs-attr">ref</span>={<span class="hljs-keyword">this</span>.inputRef} />
+                                        <span style="opacity: .2;">&lt;<span class="hljs-name">button</span>>Отправить&lt;/<span class="hljs-name">button</span>></span>
+                                    <span style="opacity: .2;">&lt;/<span class="hljs-name">form</span>></span>
+                                );
+                            }
+                        }
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold; display: flex; justify-content: center; align-items: center;">Ссылка
+                        на DOM элемент&nbsp;<span class="grey" style="font-size: 40px;">(Ref)</span></h2>
+                    <pre><code class="javascript" data-trim style="font-size: 23px;" data-noescape>
+                        class Form extends React.Component {
+                            <span style="opacity: .2;">inputRef = React.createRef();</span>
+
+                            handleSubmit = () => this.makeSomeApiRequest(
+                                this.inputRef.current.value
+                            )
+
+                            render() {
+                                return (
+                                    &lt;<span class="hljs-name">form</span> <span class="hljs-attr">onSubmit</span>={<span
+                            class="hljs-keyword">this</span>.handleSubmit}>
                                         <span style="opacity: .2;">&lt;<span class="hljs-name">input</span> <span
                                                 class="hljs-attr">ref</span>={<span class="hljs-keyword">this</span>.inputRef} /></span>
-                                        &lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>={<span
-                            class="hljs-keyword">this</span>.handleSubmit}>
-                                            Отправить
-                                        &lt;<span class="hljs-name">button</span>>
-                                    &lt;/<span class="hljs-name">div</span>>
+                                        <span style="opacity: .2;">&lt;<span class="hljs-name">button</span>>Отправить&lt;/<span class="hljs-name">button</span>></span>
+                                    &lt;/<span class="hljs-name">form</span>>
                                 );
                             }
                         }
@@ -1240,11 +1213,171 @@
                 </section>
 
                 <section class="center">
+                    <h2 style="font-weight: bold;">Сборка</h2>
+                </section>
+
+                <section data-background-video="./images/webpack.mp4" data-background-video-loop="true"></section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">webpack</h2>
+                    <pre><code class="bash" data-noescape data-trim>
+                        <span class="red">$</span> npm i webpack webpack-cli babel-loader babel-preset-react
+                    </code></pre>
+                    <pre class="fragment"><code class="javascript" data-trim style="font-size: 15px">
+                        // webpack.config.js
+
+                        const path = require('path');
+
+                        module.exports = {
+                            entry: './index.js',
+                            output: {
+                                path: path.join(__dirname, './build')
+                            },
+                            module: {
+                                rules: [{
+                                    test: /\.js$/,
+                                    loader: 'babel-loader',
+                                    options: {
+                                        presets: ['react']
+                                    }
+                                }]
+                            }
+                        };
+                    </code></pre>
+                    <pre class="fragment"><code class="bash" data-trim data-noescape>
+                        <span class="red">$</span> webpack --config webpack.config.js
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">create-react-app</h2>
+                    <pre><code class="bash" data-trim data-noescape>
+                        <span class="red">$</span> npx create-react-app notes-app
+                        <span class="fragment"><span class="red">$</span> cd notes-app</span>
+                        <span class="fragment"><span class="red">$</span> npm start
+                        <span class="grey" style="font-size: 18px;">
+                        Compiled successfully!
+
+                        You can now view <span style="font-weight: bold;">notes-app</span> in the browser.
+                            <span style="font-weight: bold;">Local</span>:            http://localhost:<span
+                                style="font-weight: bold;">3000</span>/
+
+                        Note that the development build is not optimized.
+                        To create a production build, use <span class="green">yarn build.</span></span></span>
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2 style="font-weight: bold;">create-react-app</h2>
+                    <pre><code class="bash" style="font-size: 20px;" data-trim>
+                        notes-app
+                        ├── README.md
+                        ├── node_modules
+                        ├── package.json
+                        ├── .gitignore
+                        ├── public
+                        │   ├── favicon.ico
+                        │   ├── index.html
+                        │   └── manifest.json
+                        └── src
+                            ├── App.css
+                            ├── App.js
+                            ├── App.test.js
+                            ├── index.css
+                            ├── index.js
+                            ├── logo.svg
+                            └── registerServiceWorker.js
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2 style="font-weight: bold;">create-react-app</h2>
+                    <pre><code class="bash" style="font-size: 20px;" data-trim data-noescape>
+                        notes-app
+                        <span style="opacity: .2">├── README.md</span>
+                        <span style="opacity: .2">├── node_modules</span>
+                        <span style="opacity: .2">├── package.json</span>
+                        <span style="opacity: .2">├── .gitignore</span>
+                        ├── public
+                        │   <span style="opacity: .2">├── favicon.ico</span>
+                        │   ├── index.html
+                        │   <span style="opacity: .2">└── manifest.json</span>
+                        └── src
+                            <span style="opacity: .2">├── App.css</span>
+                            <span style="opacity: .2">├── App.js</span>
+                            <span style="opacity: .2">├── App.test.js</span>
+                            <span style="opacity: .2">├── index.css</span>
+                            ├── index.js
+                            <span style="opacity: .2">├── logo.svg</span>
+                            <span style="opacity: .2">└── registerServiceWorker.js</span>
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">create-react-app</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; font-size: 35px;">
+                        <ul style="list-style: none">
+                            <li class="green">Очень быстрый старт</li>
+                            <li class="green">Активное развитие и поддержка от разработчиков React</li>
+                            <li class="red">Сложности при интеграции со своим сервером</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section data-background-image="./images/nextjs.png" data-background-size="800px">
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">create-next-app</h2>
+                    <pre style="margin: 0;"><code class="bash" data-trim data-noescape style="font-size: 20px;">
+                        <span class="red">$</span> npx create-next-app notes-app
+                        <span><span class="red">$</span> cd notes-app</span>
+                        <span><span class="red">$</span> npm run dev</span>
+                        <span class="grey" style="font-size: 18px;">
+                        [ ready ] compiled successfully - ready on http://localhost:3000</span>
+                    </code></pre>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">next.js</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; font-size: 35px;">
+                        <ul style="list-style: none">
+                            <li class="green">Очень быстрый старт</li>
+                            <li class="green">Активное развитие и поддержка</li>
+                            <li class="green">Множество точек для расширения и кастомизации</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="center">
+                    <h2 style="font-weight: bold;">next.js&nbsp;<span class="grey">Свой сервер</span></h2>
+                    <pre><code class="javascript" data-trim data-noescape style="font-size: 18px;">
+                        const { parse } = require('url');
+
+                        const next = require('next');
+                        const server = require('express')();
+
+                        <span class="fragment" data-fragment-index="1">const app = next({ dev: process.env.NODE_ENV !== 'production' });</span>
+
+                        <span class="fragment" data-fragment-index="3">const render = pageName => (req, res) => app.render(req, res, `/${pageName}`);
+                        const handleRequest = (req, res) =>
+                            app.getRequestHandler()(req, res, parse(req.url, true));</span>
+
+                        <span class="fragment" data-fragment-index="2">app.prepare().then(() => {
+                            <span class="fragment" data-fragment-index="3">server
+                                .get('/notes', render('index'))
+                                .get('/notes/:note', render('note'))
+                                .get('*', handleRequest)
+                                .listen(3000, () => console.log('Listening on http://localhost:3000'));</span>
+                        });</span>
+                    </code></pre>
+                </section>
+
+                <section class="center">
                     <h2 style="font-weight: bold;">Почитать</h2>
                     <div style="text-align: center;">
-                        <a href="https://reactjs.org/">reactjs.org</a><br>
+                        <a href="https://ru.reactjs.org">reactjs.org</a><br>
                         <a href="https://github.com/enaqx/awesome-react">awesome-react</a><br>
-                        <a href="https://reactjs.org/docs/composition-vs-inheritance.html">Composition vs Inheritance</a><br>
                         <a href="https://medium.com/@robinpokorny/index-as-a-key-is-an-anti-pattern-e0349aece318">Index as a key is an anti-pattern</a>
                     </div>
                 </section>
@@ -1252,7 +1385,6 @@
                 <section class="center">
                     <h2 style="font-weight: bold;">Посмотреть</h2>
                     <div style="text-align: center;">
-                        <a href="https://courses.totalreact.com/p/advanced-react-free">Advanced React.js</a><br>
                         <a href="https://www.youtube.com/watch?v=XLJN4JfniH4">How React Context API works</a><br>
                         <a href="https://egghead.io/courses/the-beginner-s-guide-to-reactjs">The Beginner's Guide to ReactJS</a><br>
                         <a href="https://egghead.io/courses/start-learning-react">Start Learning React</a>
